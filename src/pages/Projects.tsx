@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Type definitions
-type ProjectCategory = 'material-transformation' | 'community' | 'installations' | 'upcoming';
+type ProjectCategory = 'material-transformation' | 'community' | 'installations' | 'upcoming' | 'large-scale';
 
 interface Project {
   id: number;
@@ -75,6 +75,18 @@ const ProjectsAndStories: React.FC = () => {
       story: "Currently collecting caps from 30+ establishments across Nairobi. This project will involve workshops teaching metalworking techniques to transform caps into durable art. Our goal is to create Africa's largest bottle cap mural while training participants in sustainable art practices.",
       images: ["caps-collection.jpg"],
       category: "upcoming"
+    },
+    {
+      id: 5,
+      title: "ArtCycle Expressway",
+      year: "2025",
+      materials: "1,000,000+ plastic bottle tops",
+      participants: "500+ youths engaged",
+      stats: "100m stretch of public art",
+      description: "Ambitious installation along Nairobi Expressway using recycled plastic tops to create color wave patterns.",
+      story: "This will be Kenya's largest public art installation when completed. We're mobilizing communities across Nairobi to collect and sort bottle tops by color. The design represents the flow of traffic and water, symbolizing Nairobi's growth and environmental challenges. Youth participants will learn large-scale art techniques while creating this landmark piece visible to thousands daily.",
+      images: ["artcycle-design.jpg", "artcycle-team.jpg"],
+      category: "large-scale"
     }
   ];
 
@@ -82,6 +94,7 @@ const ProjectsAndStories: React.FC = () => {
     { value: "7,132+", label: "Bottle Caps Transformed", icon: "🥤" },
     { value: "400+", label: "Jeans Given New Life", icon: "👖" },
     { value: "3.2 Tons", label: "Wood Waste Repurposed", icon: "🌳" },
+    { value: "1M+", label: "Future Bottle Tops Target", icon: "♻️" },
     { value: "100+", label: "Lives Impacted", icon: "👥" }
   ];
 
@@ -95,6 +108,7 @@ const ProjectsAndStories: React.FC = () => {
       case 'community': return '👥';
       case 'installations': return '🌳';
       case 'upcoming': return '🔩';
+      case 'large-scale': return '🌉';
       default: return '🎨';
     }
   };
@@ -142,11 +156,20 @@ const ProjectsAndStories: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="bg-gray-900 rounded-2xl overflow-hidden border border-gray-800 hover:border-yellow-400 transition-colors"
+              className={`bg-gray-900 rounded-2xl overflow-hidden border ${
+                project.category === 'large-scale' 
+                  ? 'border-blue-400 hover:border-blue-300' 
+                  : 'border-gray-800 hover:border-yellow-400'
+              } transition-colors`}
             >
               {/* Project Image */}
               <div className="h-64 bg-gradient-to-br from-gray-800 to-black flex items-center justify-center text-8xl">
                 {getCategoryEmoji(project.category)}
+                {project.category === 'large-scale' && (
+                  <span className="absolute bottom-2 right-2 bg-blue-500 text-xs px-2 py-1 rounded">
+                    Large Scale
+                  </span>
+                )}
               </div>
               
               <div className="p-6">
@@ -166,12 +189,22 @@ const ProjectsAndStories: React.FC = () => {
                     <span className="text-lg">👤</span>
                     <span>{project.participants}</span>
                   </div>
-                  <div className="text-yellow-400">{project.stats}</div>
+                  <div className={
+                    project.category === 'large-scale' 
+                      ? 'text-blue-400' 
+                      : 'text-yellow-400'
+                  }>
+                    {project.stats}
+                  </div>
                 </div>
                 
                 <button 
                   onClick={() => toggleExpand(project.id)}
-                  className="text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                  className={
+                    project.category === 'large-scale' 
+                      ? 'text-blue-400 hover:text-blue-300' 
+                      : 'text-yellow-400 hover:text-yellow-300'
+                  }
                 >
                   {expandedProject === project.id ? 'Show less' : 'Read the story'} →
                 </button>
@@ -185,7 +218,7 @@ const ProjectsAndStories: React.FC = () => {
                   >
                     <p className="text-gray-300 mb-4">{project.story}</p>
                     <div className="flex gap-2">
-                      {project.images.map((img, i) => (
+                      {project.images.map(( i) => (
                         <div key={i} className="w-16 h-16 bg-gray-800 rounded-md"></div>
                       ))}
                     </div>
@@ -207,10 +240,22 @@ const ProjectsAndStories: React.FC = () => {
               className="border-b border-gray-800 pb-16"
             >
               <header className="mb-8">
-                <span className="text-yellow-400">{project.year}</span>
+                <span className={
+                  project.category === 'large-scale' 
+                    ? 'text-blue-400' 
+                    : 'text-yellow-400'
+                }>
+                  {project.year}
+                </span>
                 <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">{project.title}</h2>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-gray-800 rounded-full text-sm capitalize">{project.category.replace('-', ' ')}</span>
+                  <span className={`px-3 py-1 rounded-full text-sm capitalize ${
+                    project.category === 'large-scale'
+                      ? 'bg-blue-900/50 text-blue-300'
+                      : 'bg-gray-800'
+                  }`}>
+                    {project.category.replace('-', ' ')}
+                  </span>
                   <span className="px-3 py-1 bg-gray-800 rounded-full text-sm">{project.materials.split(' ')[0]}</span>
                   <span className="px-3 py-1 bg-gray-800 rounded-full text-sm">{project.participants.split(' ')[0]}</span>
                 </div>
@@ -222,12 +267,20 @@ const ProjectsAndStories: React.FC = () => {
                 
                 {/* Image gallery placeholder */}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-8">
-                  {project.images.map((img, i) => (
-                    <div key={i} className="aspect-square bg-gray-900 rounded-lg"></div>
+                  {project.images.map(( i) => (
+                    <div key={i} className={`aspect-square rounded-lg ${
+                      project.category === 'large-scale'
+                        ? 'bg-blue-900/20 border border-blue-800'
+                        : 'bg-gray-900'
+                    }`}></div>
                   ))}
                 </div>
                 
-                <div className="p-6 bg-gray-900/50 rounded-xl border border-gray-800">
+                <div className={`p-6 rounded-xl border ${
+                  project.category === 'large-scale'
+                    ? 'bg-blue-900/20 border-blue-800'
+                    : 'bg-gray-900/50 border-gray-800'
+                }`}>
                   <h3 className="text-xl font-bold mb-3">Project Impact</h3>
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
@@ -242,6 +295,12 @@ const ProjectsAndStories: React.FC = () => {
                       <span>📊</span>
                       <span>Stats: {project.stats}</span>
                     </li>
+                    {project.category === 'large-scale' && (
+                      <li className="flex items-start gap-2">
+                        <span>🌍</span>
+                        <span>Visibility: 50,000+ daily viewers</span>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -262,15 +321,21 @@ const ProjectsAndStories: React.FC = () => {
           Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-blue-400">Collective</span> Impact
         </h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
           {stats.map((stat, i) => (
             <motion.div
               key={i}
               whileHover={{ y: -5 }}
-              className="bg-gray-800/30 p-6 rounded-xl border border-gray-700 text-center"
+              className={`bg-gray-800/30 p-6 rounded-xl border ${
+                stat.icon === '♻️' ? 'border-blue-400' : 'border-gray-700'
+              } text-center`}
             >
               <div className="text-4xl mb-3">{stat.icon}</div>
-              <div className="text-2xl md:text-3xl font-bold text-yellow-400 mb-2">{stat.value}</div>
+              <div className={`text-2xl md:text-3xl font-bold mb-2 ${
+                stat.icon === '♻️' ? 'text-blue-400' : 'text-yellow-400'
+              }`}>
+                {stat.value}
+              </div>
               <div className="text-gray-300 text-sm md:text-base">{stat.label}</div>
             </motion.div>
           ))}
