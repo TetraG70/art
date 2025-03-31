@@ -1,10 +1,9 @@
 import Navbar from "./components/Navbar"
 import About from "./pages/About"
-import BlogPage from "./pages/BlogPage"
 import ContactsPage from "./pages/ContactsPage"
 import Home from "./pages/Home"
 import Projects from "./pages/Projects"
-
+import GetInvolved from "./pages/GetInvolved"
 
 const App = () => {
   return (
@@ -13,7 +12,7 @@ const App = () => {
       <Home />
       <About/>
       <Projects />
-      < BlogPage />
+      <GetInvolved />
       <ContactsPage/>
       {/* Add more sections as needed */}
        
