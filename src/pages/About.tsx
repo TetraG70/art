@@ -1,195 +1,492 @@
-import { motion } from "framer-motion";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Navbar from '../components/Navbar';
+import SDGWheel from '../assets/images/SDG Wheel.jpg';
+import SDG11 from '../assets/images/SDG 11.jpg';
+import SDG12 from '../assets/images/SDG 12.jpg';
+import SDG13 from '../assets/images/SDG 13.jpg';
+import SDG14 from '../assets/images/SDG 14.jpg';
+import SDG15 from '../assets/images/SDG 15.jpg';
 
 const About = () => {
-  return (
-    <div className="bg-black text-white min-h-screen px-4 md:px-10 py-16 overflow-hidden relative">
-      {/* Floating Materials Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(30)].map((_, i) => {
-          const materials = [
-            { emoji: "👖", color: "text-blue-400", size: "text-3xl" }, // Denim
-            { emoji: "🥤", color: "text-yellow-400", size: "text-4xl" }, // Bottle caps
-            { emoji: "🌳", color: "text-green-400", size: "text-3xl" }, // Timber
-            { emoji: "🔩", color: "text-gray-300", size: "text-3xl" } // Metal
-          ];
-          const material = materials[i % 4];
-          
-          return (
-            <motion.div
-              key={i}
-              initial={{ 
-                opacity: 0,
-                x: Math.random() * 100 - 50,
-                y: Math.random() * 100 - 50,
-                rotate: Math.random() * 360
-              }}
-              animate={{ 
-                opacity: [0, 0.3, 0],
-                x: Math.random() * 1000 - 500,
-                y: Math.random() * 1000 - 500,
-                rotate: Math.random() * 720
-              }}
-              transition={{
-                duration: 20 + Math.random() * 20,
-                repeat: Infinity,
-                delay: Math.random() * 5
-              }}
-              className={`absolute ${material.color} ${material.size}`}
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-            >
-              {material.emoji}
-            </motion.div>
-          );
-        })}
-      </div>
+  const [activeTab, setActiveTab] = useState<'why' | 'impact' | 'vision'>('why');
 
-      {/* Header */}
+  // SDG data with local images
+  const sdgs = [
+    { 
+      goal: 11, 
+      title: "Sustainable Cities and Communities", 
+      description: "Making cities inclusive, safe, resilient and sustainable through public art",
+      logo: SDG11,
+      color: "from-[#fd9d24] to-[#fcb712]",
+      borderColor: "border-[#fd9d24]"
+    },
+    { 
+      goal: 12, 
+      title: "Responsible Consumption and Production", 
+      description: "Promoting sustainable waste management through creative reuse",
+      logo: SDG12,
+      color: "from-[#bf8b2e] to-[#dda63a]",
+      borderColor: "border-[#bf8b2e]"
+    },
+    { 
+      goal: 13, 
+      title: "Climate Action", 
+      description: "Raising awareness about environmental protection through art",
+      logo: SDG13,
+      color: "from-[#407f43] to-[#4c9f38]",
+      borderColor: "border-[#407f43]"
+    },
+    { 
+      goal: 14, 
+      title: "Life Below Water", 
+      description: "Reducing plastic pollution that affects marine ecosystems",
+      logo: SDG14,
+      color: "from-[#0a97d9] to-[#56c2d6]",
+      borderColor: "border-[#0a97d9]"
+    },
+    { 
+      goal: 15, 
+      title: "Life on Land", 
+      description: "Protecting terrestrial ecosystems through waste reduction",
+      logo: SDG15,
+      color: "from-[#56be2e] to-[#7cc242]",
+      borderColor: "border-[#56be2e]"
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Navigation Bar */}
+      <Navbar />
+      
+      {/* Hero Section */}
+      <header className="relative h-[50vh] overflow-hidden pt-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/60 to-black/90">
+          <img 
+            src="https://images.unsplash.com/photo-1570129477498-45c003edd22e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+            alt="ArtCycle team working" 
+            className="w-full h-full object-cover opacity-50"
+          />
+        </div>
+
+        <div className="relative h-full flex flex-col justify-center items-center text-center px-6">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-6xl font-bold mb-4"
+          >
+            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">ArtCycle</span>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto"
+          >
+            Transforming waste into art through creativity, community, and sustainability
+          </motion.p>
+        </div>
+      </header>
+
+      {/* Tabs */}
       <motion.div 
-        className="text-center mb-20 relative z-10"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+        className="flex justify-center border-b border-gray-800 mb-12 mt-12"
       >
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">
-          Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-blue-400">Story</span>
-        </h1>
-        <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-          From discarded materials to breathtaking art – a journey of creativity and sustainability
-        </p>
+        <button
+          onClick={() => setActiveTab('why')}
+          className={`px-6 py-4 font-medium transition-colors duration-300 ${activeTab === 'why' ? 'border-b-2 border-blue-400 text-white' : 'text-gray-400 hover:text-gray-200'}`}
+        >
+          Why ArtCycle?
+        </button>
+        <button
+          onClick={() => setActiveTab('impact')}
+          className={`px-6 py-4 font-medium transition-colors duration-300 ${activeTab === 'impact' ? 'border-b-2 border-green-400 text-white' : 'text-gray-400 hover:text-gray-200'}`}
+        >
+          Impact
+        </button>
+        <button
+          onClick={() => setActiveTab('vision')}
+          className={`px-6 py-4 font-medium transition-colors duration-300 ${activeTab === 'vision' ? 'border-b-2 border-purple-400 text-white' : 'text-gray-400 hover:text-gray-200'}`}
+        >
+          Vision & Mission
+        </button>
       </motion.div>
 
-      {/* Timeline Section */}
-      <div className="max-w-4xl mx-auto relative z-10">
-        <div className="relative">
-          {/* Vertical Timeline Line */}
-          <div className="absolute left-4 md:left-1/2 h-full w-0.5 bg-gradient-to-b from-yellow-400 via-green-400 to-blue-500 -translate-x-1/2"></div>
-          
-          {/* Timeline Items */}
-          {[
-            {
-              year: "Early Years",
-              title: "🎨 Artistic Awakening",
-              description: "Discovered artistic talent when first joining school in Mombasa",
-              stats: "",
-              side: "left"
-            },
-            {
-              year: "2023",
-              title: "👖 Historic Denim Portraits",
-              description: "Created Dedan Kimathi and Nelson Mandela portraits",
-              stats: "400 scrap jeans trousers used",
-              side: "right"
-            },
-            {
-              year: "2024",
-              title: "🧒 Thunguma Children's Project",
-              description: "Nelson Mandela portrait with community participation",
-              stats: "6,732 plastic bottle tops | 50+ children involved",
-              side: "left"
-            },
-            {
-              year: "2024",
-              title: "🌳 Wangari Maathai Tribute",
-              description: "Light and shadow portrait using timber offcuts",
-              stats: "Furniture manufacturing leftovers",
-              side: "right"
-            },
-            {
-              year: "2025 (Proposed)",
-              title: "🔩 Crown Metal Caps Project",
-              description: "Large-scale community mural",
-              stats: "10,000+ metal caps | 50+ participants",
-              side: "left"
-            },
-            {
-              year: "2025 (Proposed)",
-              title: "♻️ ArtCycle Nairobi Expressway",
-              description: "Urban art transformation initiative",
-              stats: "1,000,000+ bottle tops | 500+ youths",
-              side: "right"
-            }
-          ].map((item, index) => (
+      {/* Content */}
+      <div className="max-w-6xl mx-auto px-6 pb-20">
+        <AnimatePresence mode="wait">
+          {activeTab === 'why' ? (
             <motion.div
-              key={index}
-              className={`relative mb-16 ${item.side === "left" ? "md:pr-[50%] pl-10" : "md:pl-[50%] pr-10 md:text-right"}`}
-              initial={{ x: item.side === "left" ? -50 : 50, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: index * 0.15 }}
-              viewport={{ once: true }}
+              key="why"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-12"
             >
-              <div className={`p-6 bg-gray-900/50 rounded-xl border ${item.side === "left" ? "border-yellow-400/30" : "border-blue-400/30"} shadow-lg backdrop-blur-sm`}>
-                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-gray-300 mb-3">{item.description}</p>
-                {item.stats && <div className="text-sm text-yellow-400">{item.stats}</div>}
-                <div className="mt-2 text-xs text-gray-400">{item.year}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* Impact Section */}
-      <div className="max-w-4xl mx-auto mt-28 p-8 bg-gradient-to-br from-gray-900 to-black rounded-3xl border border-gray-800 shadow-2xl relative overflow-hidden">
-        <div className="absolute -top-10 -left-10 w-64 h-64 bg-yellow-500 rounded-full filter blur-3xl opacity-10"></div>
-        <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-blue-500 rounded-full filter blur-3xl opacity-10"></div>
-        
-        <div className="relative z-10">
-          <h2 className="text-3xl font-bold mb-8">
-            By <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-blue-400">Numbers</span>
-          </h2>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { value: "400+", label: "Jeans Repurposed", emoji: "👖" },
-              { value: "6,732", label: "Bottle Caps", emoji: "🥤" },
-              { value: "50+", label: "Children Empowered", emoji: "🧒" },
-              { value: "1M+", label: "Future Caps Target", emoji: "♻️" }
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                className="p-4 bg-gray-800/30 rounded-xl border border-gray-700 text-center"
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                transition={{ delay: i * 0.2 }}
+              <motion.section
+                className="grid md:grid-cols-2 gap-8"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
               >
-                <div className="text-3xl mb-2">{stat.emoji}</div>
-                <div className="text-2xl font-bold text-yellow-400 mb-1">{stat.value}</div>
-                <div className="text-gray-300 text-sm">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
+                {/* Problem Box - Red */}
+                <motion.div 
+                  className="bg-gray-800/30 p-6 rounded-xl border-2 border-red-500/50 shadow-lg"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <h2 className="text-3xl font-bold mb-6 text-red-300">The Problem We Address</h2>
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <span className="text-red-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Urban areas in Africa face a growing plastic waste crisis with limited recycling infrastructure</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Pollution of streets, rivers, and ecosystems from improper waste disposal</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Traditional waste management fails to engage communities or change behaviors</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Valuable materials that could be repurposed end up in landfills</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-red-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Public spaces lack meaningful art reflecting local identity and values</span>
+                    </li>
+                  </ul>
+                </motion.div>
 
-      {/* Call to Action */}
-      <div className="max-w-2xl mx-auto mt-28 text-center relative z-10">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">
-          Join Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-blue-400">Eco-Art</span> Movement
-        </h2>
-        
-        <p className="text-xl text-gray-300 mb-8">
-          Help us transform waste into meaningful art that inspires communities
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-blue-500 rounded-full font-medium"
-          >
-            🥤 Donate Bottle Caps
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="px-8 py-3 border border-yellow-400 text-yellow-400 rounded-full font-medium"
-          >
-            🎨 Volunteer for Projects
-          </motion.button>
-        </div>
+                {/* Solution Box - Green */}
+                <motion.div 
+                  className="bg-gray-800/30 p-6 rounded-xl border-2 border-green-500/50 shadow-lg"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <h2 className="text-3xl font-bold mb-6 text-green-300">Our Innovative Solution</h2>
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <span className="text-green-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Transform waste into large-scale public art installations</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Engage communities in the creative recycling process</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Create environmental benefits while beautifying neighborhoods</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Celebrate cultural heritage and foster community pride</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-300 mr-2 text-xl">•</span>
+                      <span className="text-gray-300">Inspire lasting behavior change through visible sustainability</span>
+                    </li>
+                  </ul>
+                </motion.div>
+              </motion.section>
+
+              <motion.section
+                className="bg-gray-800/50 p-8 rounded-xl border border-blue-500/30"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-3xl font-bold mb-6 text-center text-blue-300">Why Our Approach Works</h2>
+                <div className="grid md:grid-cols-3 gap-6">
+                  {[
+                    {
+                      title: "Behavior Change",
+                      description: "Art creates emotional connections that lectures can't achieve",
+                      icon: "🧠",
+                      color: "bg-blue-600/20 border-blue-400/50"
+                    },
+                    {
+                      title: "Community Ownership",
+                      description: "People protect what they help create",
+                      icon: "🤝",
+                      color: "bg-purple-600/20 border-purple-400/50"
+                    },
+                    {
+                      title: "Dual Impact",
+                      description: "Simultaneously cleans environments and beautifies them",
+                      icon: "✨",
+                      color: "bg-green-600/20 border-green-400/50"
+                    }
+                  ].map((value, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ y: -5 }}
+                      className={`${value.color} p-6 rounded-lg text-center border`}
+                    >
+                      <div className="text-4xl mb-4">{value.icon}</div>
+                      <h3 className="text-xl font-bold mb-2">{value.title}</h3>
+                      <p className="text-gray-300">{value.description}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.section>
+            </motion.div>
+          ) : activeTab === 'impact' ? (
+            <motion.div
+              key="impact"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-12"
+            >
+              <motion.section
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                {/* Potential Impact Areas Section */}
+                <motion.div
+                  className="bg-gray-800/50 p-8 rounded-xl border border-green-500/30 mb-12"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <h2 className="text-3xl font-bold mb-8 text-center text-green-300">Potential Impact Areas</h2>
+                  <div className="space-y-8">
+                    {[
+                      {
+                        title: "Environmental Impact",
+                        icon: "🌱",
+                        items: [
+                          "Divert thousands of tons of plastic waste from landfills and waterways",
+                          "Reduce microplastic pollution in urban ecosystems",
+                          "Create green jobs in waste collection and art creation",
+                          "Lower carbon footprint through waste repurposing"
+                        ]
+                      },
+                      {
+                        title: "Social Impact",
+                        icon: "👥",
+                        items: [
+                          "Engage communities in hands-on environmental action",
+                          "Foster intergenerational knowledge sharing through art",
+                          "Create public spaces that reflect local identity and values",
+                          "Provide skills training in art and sustainability"
+                        ]
+                      },
+                      {
+                        title: "Economic Impact",
+                        icon: "💰",
+                        items: [
+                          "Develop circular economy models for waste materials",
+                          "Attract eco-tourism through landmark art installations",
+                          "Create market opportunities for recycled art products",
+                          "Reduce municipal waste management costs"
+                        ]
+                      }
+                    ].map((outcome, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        viewport={{ once: true }}
+                        className="bg-gray-700 p-6 rounded-lg border border-gray-600"
+                      >
+                        <div className="flex items-center mb-3">
+                          <span className="text-2xl mr-3">{outcome.icon}</span>
+                          <h3 className="text-xl font-bold text-green-300">{outcome.title}</h3>
+                        </div>
+                        <ul className="space-y-2">
+                          {outcome.items.map((item, j) => (
+                            <li key={j} className="text-gray-300 flex items-start">
+                              <span className="text-green-200 mr-2">✓</span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* SDGs Section */}
+                <div className="flex flex-col md:flex-row items-center mb-12 gap-8">
+                  <div className="md:w-1/3">
+                    <img 
+                      src={SDGWheel} 
+                      alt="UN Sustainable Development Goals" 
+                      className="rounded-lg shadow-lg w-full"
+                    />
+                  </div>
+                  <div className="md:w-2/3">
+                    <h2 className="text-3xl font-bold mb-6 text-green-400">Contributing to Sustainable Development Goals</h2>
+                    <p className="text-gray-300 mb-4">
+                      ArtCycle directly contributes to multiple United Nations Sustainable Development Goals (SDGs) through our innovative approach to waste transformation and community art.
+                    </p>
+                    <p className="text-gray-300">
+                      By addressing plastic pollution through creative means, we create ripple effects across environmental, social, and economic dimensions of sustainability.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                  {sdgs.map((sdg, i) => (
+                    <motion.div 
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      viewport={{ once: true }}
+                      whileHover={{ scale: 1.03 }}
+                      className={`bg-gradient-to-br ${sdg.color} p-0.5 rounded-xl shadow-lg`}
+                    >
+                      <div className="bg-gray-800 h-full rounded-xl p-6 flex flex-col group">
+                        <div className="flex-grow flex flex-col">
+                          <div className="flex justify-between items-start mb-4">
+                            <div className={`border-2 ${sdg.borderColor} rounded-full p-2 bg-gray-900/50`}>
+                              <img 
+                                src={sdg.logo} 
+                                alt={`SDG ${sdg.goal}`}
+                                className="h-16 w-16 object-contain"
+                              />
+                            </div>
+                            <span className="text-4xl font-bold opacity-20 group-hover:opacity-40 transition-opacity">
+                              {sdg.goal}
+                            </span>
+                          </div>
+                          <h3 className="text-xl font-bold mb-2 text-white">
+                            <span className={`bg-gradient-to-r ${sdg.color} bg-clip-text text-transparent`}>
+                              SDG {sdg.goal}:
+                            </span> {sdg.title}
+                          </h3>
+                          <p className="text-gray-300 mb-4">{sdg.description}</p>
+                        </div>
+                        <div className={`h-1 bg-gradient-to-r ${sdg.color} rounded-full mt-auto`}></div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.section>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="vision"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-12"
+            >
+              <motion.section
+                className="space-y-12"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                {/* Vision Section */}
+                <motion.div
+                  className="bg-gray-800/30 p-8 rounded-xl border-2 border-blue-500/50 shadow-lg"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <h2 className="text-3xl font-bold mb-6 text-blue-300">Vision</h2>
+                  <p className="text-xl text-gray-300">
+                    To transform urban landscapes into vibrant eco-art galleries that celebrate African heritage, wildlife, and sustainability, inspiring communities to embrace creativity and environmental responsibility.
+                  </p>
+                </motion.div>
+
+                {/* Divider */}
+                <div className="flex justify-center">
+                  <div className="h-px w-1/2 bg-gradient-to-r from-transparent via-gray-600 to-transparent"></div>
+                </div>
+
+                {/* Mission Section */}
+                <motion.div
+                  className="bg-gray-800/30 p-8 rounded-xl border-2 border-green-500/50 shadow-lg"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <h2 className="text-3xl font-bold mb-6 text-green-300">Mission</h2>
+                  <p className="text-xl text-gray-300">
+                    ArtCycle aims to create large-scale murals using recycled materials, celebrating African heroes, wildlife, and cultural heritage while fostering community engagement, raising environmental awareness, and promoting sustainable artistic practices.
+                  </p>
+                </motion.div>
+
+                {/* Divider */}
+                <div className="flex justify-center">
+                  <div className="h-px w-1/2 bg-gradient-to-r from-transparent via-gray-600 to-transparent"></div>
+                </div>
+
+                {/* Core Values Section */}
+                <motion.div
+                  className="bg-gray-800/30 p-8 rounded-xl border-2 border-purple-500/50 shadow-lg"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <h2 className="text-3xl font-bold mb-6 text-purple-300">Core Values</h2>
+                  <div className="space-y-6">
+                    <div className="flex items-start">
+                      <span className="text-purple-300 font-bold text-xl mr-4 mt-1">1.</span>
+                      <div>
+                        <h3 className="text-xl font-bold text-purple-200 mb-2">Sustainability</h3>
+                        <p className="text-gray-300">
+                          We use recycled materials to create art that reduces waste and supports environmental conservation.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-purple-300 font-bold text-xl mr-4 mt-1">2.</span>
+                      <div>
+                        <h3 className="text-xl font-bold text-purple-200 mb-2">Community</h3>
+                        <p className="text-gray-300">
+                          We empower local communities to collaborate and contribute to creative projects that make a positive impact.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-purple-300 font-bold text-xl mr-4 mt-1">3.</span>
+                      <div>
+                        <h3 className="text-xl font-bold text-purple-200 mb-2">Creativity</h3>
+                        <p className="text-gray-300">
+                          We embrace innovation in art, turning recycled materials into powerful expressions that inspire change and ignite imaginations.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Divider */}
+                <div className="flex justify-center">
+                  <div className="h-px w-1/2 bg-gradient-to-r from-transparent via-gray-600 to-transparent"></div>
+                </div>
+
+                {/* Slogan Section */}
+                <motion.div
+                  className="bg-gray-800/30 p-8 rounded-xl border-2 border-yellow-500/50 shadow-lg text-center"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <h2 className="text-3xl font-bold mb-6 text-yellow-300">Slogan</h2>
+                  <p className="text-4xl font-bold text-yellow-200 mb-4">
+                    "Green Art. Clean Earth. United People."
+                  </p>
+                  <p className="text-xl text-gray-300">
+                    This encapsulates our three pillars: creative expression, environmental action, and community building.
+                  </p>
+                </motion.div>
+              </motion.section>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

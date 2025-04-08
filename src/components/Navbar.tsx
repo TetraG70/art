@@ -1,109 +1,123 @@
 import { useState } from 'react';
-import logoImg from '../assets/images/logo.png'
-import { 
-  FaHome, 
-  FaUser, 
-  FaProjectDiagram, 
-  FaImages, 
-  FaHandsHelping, 
-  FaBlog, 
+import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  FaHome,
+  FaUser,
+  FaProjectDiagram,
+  FaHandsHelping,
   FaEnvelope,
   FaBars,
-  FaTimes
+  FaTimes,
+  FaRecycle
 } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navItems = [
+    { label: 'Home', icon: <FaHome />, path: '/' },
+    { label: 'About', icon: <FaUser />, path: '/about' },
+    { label: 'How It Works', icon: <FaProjectDiagram />, path: '/how-it-works' },
+    { label: 'Get Involved', icon: <FaHandsHelping />, path: '/get-involved' },
+    { label: 'Contact', icon: <FaEnvelope />, path: '/contact' }
+  ];
+
+  const handleNav = (path: string) => {
+    window.scrollTo(0, 0);
+    navigate(path);
+    setIsMenuOpen(false);
+  };
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="sticky top-0 z-50">
-      <nav className="bg-gray-900 border-b border-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-90">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center">
-              <h1 className="text-white text-2xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text">
-                <img src={logoImg} alt="Logo" className="h-16 w-16  rounded-full p-2" />
-              </h1>
+    <nav className="fixed w-full top-0 z-50 bg-gray-900/80 border-b border-gray-700 backdrop-blur-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Enhanced Brand Logo */}
+          <motion.div 
+            className="flex-shrink-0 flex items-center cursor-pointer group"
+            onClick={() => handleNav('/')}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <div className="flex items-center">
+              <FaRecycle className="text-green-400 text-2xl mr-2 group-hover:rotate-180 transition-transform duration-700" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+                ArtCycle
+              </span>
+              <span className="ml-1 text-xs text-gray-400 font-light hidden sm:inline">
+                Nairobi
+              </span>
             </div>
-            
-            {/* Desktop Menu */}
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-center space-x-6">
-                <NavLink icon={<FaHome className="mr-2" />} label="Home" />
-                <NavLink icon={<FaUser className="mr-2" />} label="About" />
-                <NavLink icon={<FaProjectDiagram className="mr-2" />} label="Projects" />
-                <NavLink icon={<FaImages className="mr-2" />} label="Gallery" />
-                <NavLink icon={<FaHandsHelping className="mr-2" />} label="Get Involved" />
-                <NavLink icon={<FaBlog className="mr-2" />} label="Blog" />
-                <NavLink 
-                  icon={<FaEnvelope className="mr-2" />} 
-                  label="Contact"
-                  specialStyle="relative group hover:bg-blue-600 transition-colors px-4 py-2 rounded-lg"
-                />
-              </div>
-            </div>
-            
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
-              <button 
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
+          </motion.div>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-1">
+            {navItems.map(({ label, icon, path }) => (
+              <motion.button
+                key={label}
+                onClick={() => handleNav(path)}
+                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  isActive(path) 
+                    ? 'text-white bg-gradient-to-r from-blue-600/90 to-green-600/90'
+                    : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <span className="sr-only">Open main menu</span>
-                {isMenuOpen ? (
-                  <FaTimes className="h-6 w-6" />
-                ) : (
-                  <FaBars className="h-6 w-6" />
-                )}
-              </button>
-            </div>
+                <span className="mr-2">{icon}</span>
+                {label}
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center">
+            <motion.button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-300 hover:text-white hover:bg-gray-700/50 p-2 rounded-md transition-colors"
+              aria-label="Toggle menu"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            </motion.button>
           </div>
         </div>
-        
-        {/* Mobile Menu */}
-        <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <MobileNavLink icon={<FaHome />} label="Home" />
-            <MobileNavLink icon={<FaUser />} label="About" />
-            <MobileNavLink icon={<FaProjectDiagram />} label="Projects" />
-            <MobileNavLink icon={<FaImages />} label="Gallery" />
-            <MobileNavLink icon={<FaHandsHelping />} label="Get Involved" />
-            <MobileNavLink icon={<FaBlog />} label="Blog" />
-            <MobileNavLink 
-              icon={<FaEnvelope />} 
-              label="Contact"
-              specialStyle="bg-blue-600 hover:bg-blue-700"
-            />
-          </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <motion.div 
+        className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} bg-gray-900/95 backdrop-blur-sm border-t border-gray-700`}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: isMenuOpen ? 1 : 0, y: isMenuOpen ? 0 : -20 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="px-2 pt-2 pb-4 space-y-1">
+          {navItems.map(({ label, icon, path }) => (
+            <motion.button
+              key={label}
+              onClick={() => handleNav(path)}
+              className={`w-full text-left flex items-center px-3 py-3 rounded-md text-base font-medium transition-colors ${
+                isActive(path)
+                  ? 'text-white bg-gradient-to-r from-blue-600/90 to-green-600/90'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+              }`}
+              whileHover={{ x: 5 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="mr-3 text-lg">{icon}</span>
+              {label}
+            </motion.button>
+          ))}
         </div>
-      </nav>
-    </div>
+      </motion.div>
+    </nav>
   );
 };
-
-// Reusable component for desktop nav links
-
-// Reusable component for desktop nav links
-const NavLink: React.FC<{ icon: React.ReactNode; label: string; specialStyle?: string }> = ({ icon, label, specialStyle = "" }) => (
-  <a
-    href="#"
-    className={`text-gray-300 hover:text-white flex items-center px-3 py-2 rounded-md text-sm font-medium ${specialStyle}`}
-  >
-    <span className="mr-2">{icon}</span>
-    {label}
-  </a>
-);
-
-// Reusable component for mobile nav links
-const MobileNavLink: React.FC<{ icon: React.ReactNode; label: string; specialStyle?: string }> = ({ icon, label, specialStyle = "" }) => (
-  <a
-    href="#"
-    className={`text-gray-300 hover:text-white flex items-center px-3 py-2 rounded-md text-base font-medium ${specialStyle}`}
-  >
-    <span className="mr-3 text-lg">{icon}</span>
-    {label}
-  </a>
-);
 
 export default Navbar;

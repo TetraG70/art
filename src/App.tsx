@@ -1,21 +1,22 @@
-import Navbar from "./components/Navbar"
 import About from "./pages/About"
-import ContactsPage from "./pages/ContactsPage"
+import Contact from "./pages/Contact"
 import Home from "./pages/Home"
-import Projects from "./pages/Projects"
+import HowItWorks from "./pages/HowitWorks"
 import GetInvolved from "./pages/GetInvolved"
-
+import { Route, Routes } from "react-router-dom"
 const App = () => {
   return (
     <div>
-      <Navbar />
-      <Home />
-      <About/>
-      <Projects />
-      <GetInvolved />
-      <ContactsPage/>
-      {/* Add more sections as needed */}
-       
+      {/* <Navbar /> */}
+
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/get-involved" element={<GetInvolved />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
     </div>
   )
 }
