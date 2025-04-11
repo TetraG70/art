@@ -7,6 +7,8 @@ import SDG12 from '../assets/images/SDG 12.jpg';
 import SDG13 from '../assets/images/SDG 13.jpg';
 import SDG14 from '../assets/images/SDG 14.jpg';
 import SDG15 from '../assets/images/SDG 15.jpg';
+import WasteBackground from '../assets/images/Waste.jpeg';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   const [activeTab, setActiveTab] = useState<'why' | 'impact' | 'vision'>('why');
@@ -17,6 +19,7 @@ const About = () => {
       goal: 11, 
       title: "Sustainable Cities and Communities", 
       description: "Making cities inclusive, safe, resilient and sustainable through public art",
+      achievement: "By transforming waste into public art installations, we beautify urban spaces while promoting sustainable community development and cultural expression.",
       logo: SDG11,
       color: "from-[#fd9d24] to-[#fcb712]",
       borderColor: "border-[#fd9d24]"
@@ -25,6 +28,7 @@ const About = () => {
       goal: 12, 
       title: "Responsible Consumption and Production", 
       description: "Promoting sustainable waste management through creative reuse",
+      achievement: "Our art projects demonstrate practical circular economy solutions by repurposing discarded materials into valuable artistic creations.",
       logo: SDG12,
       color: "from-[#bf8b2e] to-[#dda63a]",
       borderColor: "border-[#bf8b2e]"
@@ -33,6 +37,7 @@ const About = () => {
       goal: 13, 
       title: "Climate Action", 
       description: "Raising awareness about environmental protection through art",
+      achievement: "Each recycled art piece serves as a visual reminder of climate impacts and the power of individual actions to make a difference.",
       logo: SDG13,
       color: "from-[#407f43] to-[#4c9f38]",
       borderColor: "border-[#407f43]"
@@ -41,6 +46,7 @@ const About = () => {
       goal: 14, 
       title: "Life Below Water", 
       description: "Reducing plastic pollution that affects marine ecosystems",
+      achievement: "By intercepting plastic waste before it reaches waterways, we directly prevent ocean pollution and protect marine biodiversity.",
       logo: SDG14,
       color: "from-[#0a97d9] to-[#56c2d6]",
       borderColor: "border-[#0a97d9]"
@@ -49,6 +55,7 @@ const About = () => {
       goal: 15, 
       title: "Life on Land", 
       description: "Protecting terrestrial ecosystems through waste reduction",
+      achievement: "Our projects reduce landfill waste and prevent environmental degradation, helping preserve natural habitats and terrestrial species.",
       logo: SDG15,
       color: "from-[#56be2e] to-[#7cc242]",
       borderColor: "border-[#56be2e]"
@@ -60,13 +67,13 @@ const About = () => {
       {/* Navigation Bar */}
       <Navbar />
       
-      {/* Hero Section */}
-      <header className="relative h-[50vh] overflow-hidden pt-20">
+      {/* Hero Section - Updated with Waste.jpeg background */}
+      <header className="relative h-[70vh] overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-900/60 to-black/90">
           <img 
-            src="https://images.unsplash.com/photo-1570129477498-45c003edd22e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
-            alt="ArtCycle team working" 
-            className="w-full h-full object-cover opacity-50"
+            src={WasteBackground} 
+            alt="Waste background" 
+            className="w-full h-full object-cover opacity-70"
           />
         </div>
 
@@ -75,7 +82,7 @@ const About = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl font-bold mb-4"
+            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
           >
             About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">ArtCycle</span>
           </motion.h1>
@@ -83,13 +90,14 @@ const About = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto"
+            className="text-2xl md:text-3xl text-gray-300 max-w-3xl mx-auto"
           >
             Transforming waste into art through creativity, community, and sustainability
           </motion.p>
         </div>
       </header>
 
+      {/* Rest of the component remains the same */}
       {/* Tabs */}
       <motion.div 
         initial={{ opacity: 0 }}
@@ -371,7 +379,10 @@ const About = () => {
                               SDG {sdg.goal}:
                             </span> {sdg.title}
                           </h3>
-                          <p className="text-gray-300 mb-4">{sdg.description}</p>
+                          <p className="text-gray-300 mb-2">{sdg.description}</p>
+                          <p className="text-sm text-gray-400 mt-2 italic">
+                            <span className="text-green-300">How we achieve this:</span> {sdg.achievement}
+                          </p>
                         </div>
                         <div className={`h-1 bg-gradient-to-r ${sdg.color} rounded-full mt-auto`}></div>
                       </div>
@@ -472,11 +483,11 @@ const About = () => {
 
                 {/* Slogan Section */}
                 <motion.div
-                  className="bg-gray-800/30 p-8 rounded-xl border-2 border-yellow-500/50 shadow-lg text-center"
+                  className="bg-gray-800/30 p-8 rounded-xl border-2 border-green-400/50 shadow-lg text-center"
                   whileHover={{ scale: 1.01 }}
                 >
-                  <h2 className="text-3xl font-bold mb-6 text-yellow-300">Slogan</h2>
-                  <p className="text-4xl font-bold text-yellow-200 mb-4">
+                  <h2 className="text-3xl font-bold mb-6 text-green-400">Slogan</h2>
+                  <p className="text-4xl font-bold text-green-400 mb-4">
                     "Green Art. Clean Earth. United People."
                   </p>
                   <p className="text-xl text-gray-300">
@@ -487,6 +498,17 @@ const About = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* "How ArtCycle Works" Button */}
+        <div className="flex justify-center mt-12">
+          <Link 
+            to="/how-it-works" 
+            className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+            onClick={() => window.scrollTo(0, 0)}
+          >
+            How ArtCycle Works
+          </Link>
+        </div>
       </div>
     </div>
   );

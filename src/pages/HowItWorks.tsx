@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Collection from '../assets/images/Collection.jpeg';
+import Processing from '../assets/images/Processing.jpg';
+import Creation from '../assets/images/Creation.jpeg';
+import Installation from '../assets/images/Installation.jpeg';
 
 const HowItWorks = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -20,7 +24,7 @@ const HowItWorks = () => {
       ],
       icon: "🔄",
       color: "bg-blue-500",
-      image: "https://images.unsplash.com/photo-1604176354204-926a7e5a8d2b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+      image: Collection // Updated to use local image
     },
     {
       title: "Material Processing",
@@ -28,13 +32,13 @@ const HowItWorks = () => {
       details: [
         "Thorough cleaning and sanitization process",
         "Sorting by material type, color, and quality",
-        "Shredding/processing for specific art applications",
+        "Shredding,melting and molding PET bottles into boards",
         "Quality control checks for durability",
         "Storage in organized material libraries"
       ],
       icon: "🏭",
       color: "bg-purple-500",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+      image: Processing // Updated to use local image
     },
     {
       title: "Artistic Creation",
@@ -42,27 +46,27 @@ const HowItWorks = () => {
       details: [
         "Artist-led design workshops with community input",
         "Digital mockups and material planning",
-        "Community art-building sessions",
+        "Artwork done in sections;on boards of 1.5m x 1.2m by community members",
         "Professional artist refinement",
         "Weather-resistant treatments and finishes"
       ],
       icon: "🎨",
       color: "bg-pink-500",
-      image: "https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+      image: Creation // Updated to use local image
     },
     {
       title: "Installation & Exhibition",
       description: "Bringing art to the public",
       details: [
         "Site preparation and safety measures",
-        "Professional installation team",
-        "Lighting and environmental considerations",
-        "Opening events and community celebrations",
-        "Ongoing maintenance program"
+        "Different art sections transported from different community working area to the site",
+        "Each section istalled and arranged to form one complete artwork",
+        "Artwork cover the top half of the wall,while the bottom half is left with the existing potted plants",
+        "Community unveiling event with local media coverage",
       ],
       icon: "🏗️",
       color: "bg-green-500",
-      image: "https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+      image: Installation // Updated to use local image
     }
   ];
 
@@ -88,6 +92,12 @@ const HowItWorks = () => {
     }
   ];
 
+  // Function to handle navigation to top of new page
+  const handleGetInvolvedClick = () => {
+    navigate('/get-involved');
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Navigation Bar */}
@@ -100,6 +110,7 @@ const HowItWorks = () => {
             src="https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
             alt="ArtCycle process" 
             className="w-full h-full object-cover opacity-50"
+            loading="lazy" // Added lazy loading
           />
         </div>
 
@@ -203,6 +214,7 @@ const HowItWorks = () => {
               src={processSteps[activeStep].image} 
               alt={processSteps[activeStep].title}
               className="w-full h-full object-cover"
+              loading="lazy" // Added lazy loading
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
               <div className="text-sm text-gray-300">
@@ -288,7 +300,7 @@ const HowItWorks = () => {
       {/* Get Involved Button */}
       <section className="py-16 text-center">
         <motion.button
-          onClick={() => navigate('/get-involved')}
+          onClick={handleGetInvolvedClick}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="px-8 py-3 bg-gradient-to-r from-blue-500 to-green-500 rounded-full font-medium text-lg"

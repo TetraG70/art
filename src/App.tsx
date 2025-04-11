@@ -1,7 +1,7 @@
 import About from "./pages/About"
 import Contact from "./pages/Contact"
 import Home from "./pages/Home"
-import HowItWorks from "./pages/HowitWorks"
+import HowItWorks from "./pages/HowItWorks"
 import GetInvolved from "./pages/GetInvolved"
 import { Route, Routes } from "react-router-dom"
 const App = () => {
